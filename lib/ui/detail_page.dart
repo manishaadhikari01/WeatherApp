@@ -68,21 +68,61 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    int safeIndex(int index) {
+      final len = widget.dailyForecastWeather.length;
+      if (len <= 0) return 0;
+      return index.clamp(0, len - 1);
+    }
+
     Map<String, dynamic> getForecastWeather(int index) {
       final weatherData = widget.dailyForecastWeather;
+      if (weatherData.isEmpty) {
+        return {
+          "forecastDate": "",
+          "weatherName": "",
+          "minTemp": 0,
+          "maxTemp": 0,
+          "wind": 0,
+          "humidity": 0,
+          "rain": 0,
+        };
+      }
 
-      int maxWindSpeed = weatherData[index]["day"]["maxwind_kph"].toInt();
-      int avgHumidity = weatherData[index]["day"]["avghumidity"].toInt();
-      int chanceOfRain =
-          weatherData[index]["day"]["daily_chance_of_rain"].toInt();
+      final i = safeIndex(index);
+      final dayObj = weatherData[i];
 
-      DateTime parsedDate = DateTime.parse(weatherData[index]["date"]);
-      String forecastDate = DateFormat('EEE · dd MMM').format(parsedDate);
+      dynamic dateRaw = dayObj["date"];
+      DateTime? parsedDate;
+      try {
+        parsedDate = (dateRaw is String) ? DateTime.parse(dateRaw) : null;
+      } catch (_) {}
 
-      String weatherName = weatherData[index]["day"]["condition"]["text"];
+      final forecastDate =
+          parsedDate != null
+              ? DateFormat('EEE · dd MMM').format(parsedDate)
+              : "";
 
-      int minTemp = weatherData[index]["day"]["mintemp_c"].toInt();
-      int maxTemp = weatherData[index]["day"]["maxtemp_c"].toInt();
+      int toInt(dynamic v) {
+        if (v == null) return 0;
+        if (v is int) return v;
+        if (v is double) return v.round();
+        if (v is String) {
+          final d = double.tryParse(v);
+          return d?.round() ?? 0;
+        }
+        return 0;
+      }
+
+      final day = dayObj["day"] ?? {};
+      final condition = day["condition"] ?? {};
+
+      final maxWindSpeed = toInt(day["maxwind_kph"]);
+      final avgHumidity = toInt(day["avghumidity"]);
+      final chanceOfRain = toInt(day["daily_chance_of_rain"]);
+      final weatherName = (condition["text"] ?? "").toString();
+
+      final minTemp = toInt(day["mintemp_c"]);
+      final maxTemp = toInt(day["maxtemp_c"]);
 
       return {
         "forecastDate": forecastDate,
@@ -214,7 +254,10 @@ class _DetailPageState extends State<DetailPage> {
                   /// 📅 5-Day Forecast
                   Expanded(
                     child: ListView.separated(
-                      itemCount: 5,
+                      itemCount: (widget.dailyForecastWeather.length - 1).clamp(
+                        0,
+                        5,
+                      ),
                       separatorBuilder: (_, __) => const SizedBox(height: 14),
                       itemBuilder: (context, index) {
                         final forecast = getForecastWeather(index + 1);

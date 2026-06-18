@@ -22,12 +22,17 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
+    apiKey = dotenv.env['API_KEY'] ?? '';
+
     fetchWeatherData('Mumbai');
   }
 
-  //static const String API_KEY = "713ff79d2e664d33a9b151509251412";
+  // API key is loaded from .env (see flutter_dotenv usage)
+  // Create a file named `.env` in the project root with:
+  // API_KEY=your_api_key_here
 
-  static String apiKey = dotenv.env['API_KEY'] ?? '';
+  String apiKey = '';
 
   String location = 'Dehradun';
   String weatherIcon = 'assests/heavycloudy.png';
@@ -82,7 +87,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   //api call
-  String searchWeatherAPI =
+  String get searchWeatherAPI =>
       "https://api.weatherapi.com/v1/forecast.json?key=$apiKey&days=7&q=";
 
   void fetchWeatherData(String searchText) async {
