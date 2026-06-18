@@ -19,10 +19,24 @@ Weatherly delivers real-time weather updates, forecasts, and key atmospheric inf
 
 ## Screenshots
 
-<img width="200" alt="image" src="https://github.com/user-attachments/assets/e01f04a9-69ff-4be7-a57a-2799a88ade58" />
-<img width="200" alt="image" src="https://github.com/user-attachments/assets/9cc4c652-0b1e-47b6-9039-8e3b5e593cac" />
-<img width="200" alt="image" src="https://github.com/user-attachments/assets/4312661f-2045-4f04-8ab7-78eb876e1286" />
-<img width="200" alt="image" src="https://github.com/user-attachments/assets/0cf8f2b5-d002-4f43-9323-b918bec04c89" />
+<table>
+  <tr>
+    <td>
+      <img width="250" alt="image" src="https://github.com/user-attachments/assets/e01f04a9-69ff-4be7-a57a-2799a88ade58" />
+    </td>
+    <td width="20" ></td>
+    <td><img width="250" alt="image" src="https://github.com/user-attachments/assets/9cc4c652-0b1e-47b6-9039-8e3b5e593cac" /></td>
+  </tr>
+  <tr>
+    <td><img width="250" alt="image" src="https://github.com/user-attachments/assets/4312661f-2045-4f04-8ab7-78eb876e1286" /></td>
+    <td width="20"></td>
+    <td><img width="250" alt="image" src="https://github.com/user-attachments/assets/0cf8f2b5-d002-4f43-9323-b918bec04c89" /></td>
+  </tr>
+</table>
+
+
+
+
 
 
 
